@@ -1,0 +1,22 @@
+<div class="ba-form-container h-100">
+    <form [formGroup]="roomForm">
+      <div>
+        <label>Room Types:</label>
+        <button *ngFor="let type of roomTypes" (click)="addRoom(type)">
+          Add {{ type }} Room
+        </button>
+      </div>
+  
+      <div formArrayName="selectedRooms">
+        <div *ngFor="let room of selectedRooms.controls; let i = index" [formGroupName]="i">
+          <app-room-type
+            [roomType]="room.get('type')?.value"
+            (updateGuests)="onRoomUpdate(i, $event)"
+          ></app-room-type>
+        </div>
+      </div>
+  
+      <button (click)="submit()">Submit</button>
+    </form>
+  </div>
+  

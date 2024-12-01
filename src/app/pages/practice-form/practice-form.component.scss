@@ -1,0 +1,35 @@
+
+
+
+
+.ba-form-container {
+    padding: 1rem;
+    background-color: aliceblue;
+    height: 100%;
+    width: 100%;
+    .ba-form-item {
+        border: 1px solid gray;
+        border-radius: 0.5rem;
+    } > div {
+        margin: 1rem 0;
+    }
+
+    .ba-input {
+        padding: 0.75rem;
+    }
+
+    ::ng-deep {
+       .p-dropdown {
+        width: 100%;
+
+        .p-dropdown-items {
+            padding-left: unset;
+        }
+       }
+
+       .is-invalid {
+        border: 1px solid red !important;
+      }
+    }
+
+}
