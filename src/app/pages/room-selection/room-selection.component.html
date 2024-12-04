@@ -1,22 +1,18 @@
 <div class="ba-form-container h-100">
-    <form [formGroup]="roomForm">
-      <div>
-        <label>Room Types:</label>
-        <button *ngFor="let type of roomTypes" (click)="addRoom(type)">
-          Add {{ type }} Room
-        </button>
-      </div>
-  
-      <div formArrayName="selectedRooms">
-        <div *ngFor="let room of selectedRooms.controls; let i = index" [formGroupName]="i">
-          <app-room-type
-            [roomType]="room.get('type')?.value"
-            (updateGuests)="onRoomUpdate(i, $event)"
-          ></app-room-type>
-        </div>
-      </div>
-  
-      <button (click)="submit()">Submit</button>
-    </form>
-  </div>
-  
+  <form [formGroup]="roomForm">
+    <div *ngFor="let room of roomTypes">
+      <app-room-type
+        [roomType]="room"
+        [roomGroup]="getRoomGuests(room)"
+      ></app-room-type>
+    </div>
+
+    <button
+      [disabled]="isFormInvalid"
+      class="btn btn-primary mt-5"
+      (click)="submit()"
+    >
+      Submit
+    </button>
+  </form>
+</div>

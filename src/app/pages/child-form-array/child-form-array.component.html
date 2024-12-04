@@ -1,0 +1,12 @@
+<form [formGroup]="mainForm">
+<div [formArrayName]="controlName">
+    <ng-container *ngFor="let role of rolesArray.controls; let i = index" [formGroupName]="i">
+        <div class="form-control">
+            <label for="">Name Role</label>
+            <input class="input-group" formControlName="name" type="text"/>
+            <span class="text-danger">{{ role.get('name')?.invalid ? 'require' : '' }}</span>
+        </div>
+    </ng-container> 
+
+</div>
+</form>

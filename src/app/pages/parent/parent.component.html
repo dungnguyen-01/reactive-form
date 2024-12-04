@@ -1,0 +1,20 @@
+<div class="container">
+    <form [formGroup]="mainForm">
+
+        <div class="form-control">
+            <label for="username">Username</label>
+            <input formControlName="username" class="input-group" type="text">
+            <span class="text-danger">{{ mainForm.get('username')?.invalid ? 'required' : '' }}</span>
+        </div>
+
+        <div class="form-control">
+            <label for="pass">Password</label>
+            <input formControlName="password" class="input-group" type="text">
+            <span class="text-danger">{{ mainForm.get('password')?.invalid ? 'required' : '' }}</span>
+        </div>
+        <app-children [mainFrom]="mainForm" controlName="email"></app-children>
+        <app-child-form-array [mainForm]="mainForm" controlName="roles"></app-child-form-array>
+    </form>
+
+    <button [disabled]="mainForm.invalid" class="btn btn-primary mt-3" (click)="onSubmit()">Submit</button>
+</div>

@@ -1,0 +1,7 @@
+<ng-container [formGroup]="mainFrom">
+    <div class="form-control">
+        <label for="email">Email</label>
+        <input class="input-group" type="email" [formControlName]="controlName" id="">
+        <span class="text-danger" *ngIf="mainFrom.get(controlName)?.invalid">required</span>
+    </div>
+</ng-container>

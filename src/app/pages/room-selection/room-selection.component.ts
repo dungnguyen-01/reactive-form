@@ -1,5 +1,46 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
+// import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+// import { FormBuilder, FormArray, FormGroup, AbstractControl } from '@angular/forms';
+// import { RoomTypeComponent } from '../room-type/room-type.component';
+// import { SharedModule } from '../../shared/shared.module';
+
+// @Component({
+//   selector: 'app-room-selection',
+//   standalone: true,
+//   imports: [SharedModule,RoomTypeComponent],
+//   templateUrl: './room-selection.component.html'
+// })
+// export class RoomSelectionComponent implements OnInit {
+//   roomForm!: FormGroup;
+//   roomTypes = ['Single', 'Double', 'Suite']; // Example room types
+
+//   constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {
+//   }
+
+//   ngOnInit(): void {
+//     this.roomForm = this.fb.group({
+//       guests: this.fb.array([], this.guestsArrayNotEmpty),
+//     });
+//   }
+
+//   guestsArrayNotEmpty(control: AbstractControl): {[key: string]: boolean} | null {
+//     const array = control as FormArray;
+//     return array.length > 0 ? null : {emptyGuests: true};
+//   }
+
+//   get isFormInvalid(): boolean {
+//     return this.roomForm.invalid;
+//   }
+  
+
+
+//   submit(): void {
+//     console.log(this.roomForm.value);
+//   }
+// }
+
+
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { FormBuilder, FormArray, FormGroup, AbstractControl } from '@angular/forms';
 import { RoomTypeComponent } from '../room-type/room-type.component';
 import { SharedModule } from '../../shared/shared.module';
 
@@ -10,33 +51,30 @@ import { SharedModule } from '../../shared/shared.module';
   templateUrl: './room-selection.component.html'
 })
 export class RoomSelectionComponent implements OnInit {
-  roomForm: FormGroup;
-  roomTypes = ['Single', 'Double', 'Triple'];
+  roomForm!: FormGroup;
+  roomTypes = ['Single', 'Double', 'Suite']; // Example room types
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {
+  }
+
+  ngOnInit(): void {
     this.roomForm = this.fb.group({
-      selectedRooms: this.fb.array([]),
+      Single: this.fb.array([]),
+      Double: this.fb.array([]),
+      Suite: this.fb.array([]),
     });
   }
 
-  ngOnInit(): void {}
-
-  get selectedRooms(): FormArray {
-    return this.roomForm.get('selectedRooms') as FormArray;
+  guestsArrayNotEmpty(control: FormArray): { [key: string]: boolean } | null {
+    return control.length > 0 ? null : { emptyGuests: true };
   }
 
-  addRoom(type: string): void {
-    const roomGroup = this.fb.group({
-      type,
-      numberOfRooms: 1, // Default số lượng phòng là 1
-      guests: this.fb.array([]),
-    });
-
-    this.selectedRooms.push(roomGroup);
+  getRoomGuests(roomType: string): FormArray {
+    return this.roomForm.get(roomType) as FormArray;
   }
 
-  onRoomUpdate(index: number, guests: any[]): void {
-    this.selectedRooms.at(index).get('guests')?.setValue(guests, { emitEvent: false });
+  get isFormInvalid(): boolean {
+    return this.roomForm.invalid;
   }
 
   submit(): void {

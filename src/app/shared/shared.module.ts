@@ -14,6 +14,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { TooltipModule } from 'primeng/tooltip';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CheckboxModule } from 'primeng/checkbox';
 
 
 
@@ -33,7 +34,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     TooltipModule,
     InputTextModule,
     ReactiveFormsModule, 
-    FormsModule
+    FormsModule,
+    CheckboxModule
   ],
   exports: [
 
@@ -50,7 +52,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     DropdownModule,
     TooltipModule,
     InputTextModule,
-    ReactiveFormsModule, FormsModule
+    ReactiveFormsModule, 
+    FormsModule,
+    CheckboxModule
   ]
 })
 export class SharedModule {}

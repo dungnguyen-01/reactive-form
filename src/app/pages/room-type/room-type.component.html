@@ -1,67 +1,69 @@
-<div class="ba-form-container h-100">
-    <form [formGroup]="roomGroup"  (ngSubmit)="onSubmit()">
-    <div class="ba-form-item w-100">
-        <div class="d-flex p-2">
-            <div class="mb-3 col-3">
-                <label for="exampleFormControlInput1" class="form-label">Name</label>
-                <input 
-                    formControlName="name" 
-                    type="text" 
-                    class="ba-input form-control" 
-                    id="exampleFormControlInput1" 
-                    placeholder="Brian Nguyen"
-                    [ngClass]="{'is-invalid': isValid(roomGroup, 'name')}"
-                    >
-                    <div *ngIf="isValid(roomGroup, 'name')" class="text-danger">
-                        {{ getErrorMessage(roomGroup, 'name') }}
-                      </div>
-              </div>
-            <div class="d-flex flex-column col-3">
-                <label class=" ms-2 me-2 form-label">Room</label>
-                <p-dropdown 
-                [options]="rooms" 
-                formControlName="room"
-                [showClear]="true" 
-                class="ms-2 me-2"
-                placeholder="Select a room"
-                >
-                <ng-template let-room pTemplate="selectedItem">
-                    <div class="flex align-items-center gap-2">
-                        <div>{{ room + ' rooms' }}</div>
-                    </div>
-                </ng-template>
-                <ng-template let-room pTemplate="item">
-                    <div class="flex align-items-center gap-2">
-                        <div>{{ room + ' rooms' }}</div>
-                    </div>
-                </ng-template>
-        </p-dropdown>
-            </div>
-            <div class="w-100 d-flex flex-column gap-3" formArrayName="guests">
-                <div class="d-flex flex-column col-3 w-100"
-                     *ngFor="let ageForm of guestsArray.controls; let i = index" 
-                     [formGroupName]="i">
-                    <label class="form-label">Age {{ ageForm }}</label>
-                    <div class="input-group flex-nowrap">
-                        <span class="input-group-text" id="addon-wrapping">Age</span>
-                        <input type="text" 
-                            formControlName="numberAge"
-                            class="ba-input form-control" 
-                            placeholder="Username" 
-                            aria-label="Username" 
-                            aria-describedby="addon-wrapping"
-                            (input)="onInputChange()"
-                            [ngClass]="{'is-invalid': isValidFormArray(ageForm, 'numberAge')}"
-                            >
-                      </div>
-                      <div *ngIf="isValidFormArray(ageForm, 'numberAge')" class="text-danger">
-                        {{ getErrorMessageFormArray(ageForm, 'numberAge') }}
-                      </div>
-                </div>
-            </div>
-            
-        </div>
+<div class="room-type-container">
+    <!-- Room Type Header -->
+    <h3>{{ roomType }} Room</h3>
+  
+    <!-- Dropdown for Number of Rooms -->
+    <div class="form-group">
+      <label for="roomNumber">Number of {{ roomType }} Rooms</label>
+      <p-dropdown
+        [options]="rooms"
+        [showClear]="true"
+        (onChange)="onNumberRoomChange($event)"
+        placeholder="Select number of rooms"
+        class="form-control"
+      ></p-dropdown>
     </div>
-    <button>Submit</button>
-</form>
-</div>
+  
+    <!-- Dynamically Added Guests -->
+    <div *ngFor="let guest of roomGroup.controls; let i = index" [formGroup]="convert(guest)" class="guest-form">
+      <div class="form-group">
+        <!-- Guest Age -->
+        <label for="guestAge-{{ i }}">Guest {{ i + 1 }} Age:</label>
+        <input
+          id="guestAge-{{ i }}"
+          formControlName="numberAge"
+          type="number"
+          class="form-control"
+          placeholder="Enter age"
+        />
+        <!-- Error Message for Age -->
+        <div *ngIf="isValid(convert(guest).get('numberAge'))">
+          <small class="text-danger">
+            {{ getErrorMessage(guest.get('numberAge')) }}
+          </small>
+        </div>
+  
+        <!-- Passenger Club Checkbox -->
+        <div class="form-check">
+          <input
+            formControlName="passengerClub"
+            type="checkbox"
+            class="form-check-input"
+            id="passengerClub-{{ i }}"
+          />
+          <label for="passengerClub-{{ i }}" class="form-check-label">
+            Passenger Club
+          </label>
+        </div>
+  
+        <!-- Meal Supplement Checkbox -->
+        <div class="form-check">
+          <input
+            formControlName="mealSupplement"
+            type="checkbox"
+            class="form-check-input"
+            id="mealSupplement-{{ i }}"
+          />
+          <label for="mealSupplement-{{ i }}" class="form-check-label">
+            Meal Supplement
+          </label>
+        </div>
+      </div>
+    </div>
+  
+    <!-- No Guests Selected Message -->
+    <div *ngIf="numberRoom === 0" class="text-muted">
+      No guests selected for this room type.
+    </div>
+  </div>
+  
